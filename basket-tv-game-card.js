@@ -4,7 +4,25 @@
    (Betclic Élite / Pro B / NBA — https://github.com/developpeurbox/hass-basket-tv)
    ======================================================== */
 
-const BASKET_TV_GAME_CARD_VERSION = "v0.0.5";
+const BASKET_TV_GAME_CARD_VERSION = "v0.0.6";
+
+/* Échappement HTML de toute valeur issue d'une entité ou de la config. */
+const esc = (v) =>
+  String(v ?? "").replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+
+/* URL d'image : http(s) ou chemin local absolu uniquement, sinon vide. */
+const safeImg = (v) => {
+  const u = String(v ?? "").trim();
+  return /^(https?:\/\/|\/(?!\/))/i.test(u) ? u : "";
+};
+
+/* Lien externe : http(s) uniquement, sinon vide. */
+const safeLink = (v) => {
+  const u = String(v ?? "").trim();
+  return /^https?:\/\//i.test(u) ? u : "";
+};
 
 class BasketTvGameCard extends HTMLElement {
 
@@ -26,7 +44,7 @@ class BasketTvGameCard extends HTMLElement {
 
     const state = hass.states[this._config.entity];
     if (!state) {
-      this.innerHTML = `<ha-card style="padding:16px;color:red">Entité introuvable : ${this._config.entity}</ha-card>`;
+      this.innerHTML = `<ha-card style="padding:16px;color:red">Entité introuvable : ${esc(this._config.entity)}</ha-card>`;
       return;
     }
 
@@ -42,7 +60,7 @@ class BasketTvGameCard extends HTMLElement {
     const pasDeMatch = (fin && fin < now) || (!b.domicile && !b.exterieur);
 
     if (pasDeMatch) {
-      const logoTeam = b.logoTeam || "";
+      const logoTeam = safeImg(b.logoTeam);
       const teamName = b.team || "";
 
       this.innerHTML = `
@@ -94,12 +112,12 @@ class BasketTvGameCard extends HTMLElement {
                 <div class="bkt-body">
                   <div class="bkt-empty">
                     <div class="team-logo-wrap">
-                      ${logoTeam ? `<img class="team-logo-ghost" src="${logoTeam}">` : ""}
+                      ${logoTeam ? `<img class="team-logo-ghost" src="${esc(logoTeam)}">` : ""}
                       ${logoTeam
-                        ? `<div class="team-logo-chip"><img class="team-logo" src="${logoTeam}"></div>`
+                        ? `<div class="team-logo-chip"><img class="team-logo" src="${esc(logoTeam)}"></div>`
                         : `<div style="width:88px;height:88px"></div>`}
                     </div>
-                    ${teamName ? `<span class="team-name">${teamName}</span>` : ""}
+                    ${teamName ? `<span class="team-name">${esc(teamName)}</span>` : ""}
                     <span class="no-match-msg">Aucun match prévu prochainement</span>
                   </div>
                 </div>
@@ -111,17 +129,17 @@ class BasketTvGameCard extends HTMLElement {
       return;
     }
 
-    const logoDom     = b.logoDomicile  || "";
-    const logoExt     = b.logoExterieur || "";
+    const logoDom     = safeImg(b.logoDomicile);
+    const logoExt     = safeImg(b.logoExterieur);
     const gameName    = b.game          || "";
     const competition = [b.competition, b.journee].filter(Boolean).join(" · ");
     const diffuseur1 = b.diffuseur1 || "";
-    const logoDiff1 = b.logoDiffuseur1 || "";
+    const logoDiff1 = safeImg(b.logoDiffuseur1);
     const diffuseur2 = b.diffuseur2 || "";
-    const logoDiff2 = b.logoDiffuseur2 || "";
+    const logoDiff2 = safeImg(b.logoDiffuseur2);
     const heure       = b.heure         || "";
     const date        = b.date_fr || b.date || "";
-    const lienMatch   = b.lien_match    || "";
+    const lienMatch   = safeLink(b.lien_match);
 
     this.innerHTML = `
       <ha-card>
@@ -226,54 +244,54 @@ class BasketTvGameCard extends HTMLElement {
             <div class="bkt-top">
               <div class="bkt-body">
                 <div class="bkt-game">
-                  <span class="bkt-game-name">${gameName}</span>
-                  ${competition ? `<span class="bkt-game-competition">${competition}</span>` : ""}
+                  <span class="bkt-game-name">${esc(gameName)}</span>
+                  ${competition ? `<span class="bkt-game-competition">${esc(competition)}</span>` : ""}
                 </div>
                 <div class="teams">
                   <div class="team-block">
                     <div class="team-logo-wrap">
-                      ${logoDom ? `<img class="team-logo-ghost" src="${logoDom}">` : ""}
+                      ${logoDom ? `<img class="team-logo-ghost" src="${esc(logoDom)}">` : ""}
                       ${logoDom
-                        ? `<div class="team-logo-chip"><img class="team-logo" src="${logoDom}"></div>`
+                        ? `<div class="team-logo-chip"><img class="team-logo" src="${esc(logoDom)}"></div>`
                         : `<div style="width:88px;height:88px"></div>`}
                     </div>
-                    <span class="team-name">${b.domicile || ""}</span>
+                    <span class="team-name">${esc(b.domicile)}</span>
                   </div>
                   <div class="center">
                     ${diffuseur1 ? `
                        <div class="channel-zone">
                      
                          <div class="channel-row">
-                           ${logoDiff1 ? `<img class="channel-logo" src="${logoDiff1}">` : ""}
-                           <div class="chaine">${diffuseur1}</div>
+                           ${logoDiff1 ? `<img class="channel-logo" src="${esc(logoDiff1)}">` : ""}
+                           <div class="chaine">${esc(diffuseur1)}</div>
                          </div>
                      
                          ${diffuseur2 ? `
                            <div class="channel-row">
-                             ${logoDiff2 ? `<img class="channel-logo" src="${logoDiff2}">` : ""}
-                             <div class="chaine">${diffuseur2}</div>
+                             ${logoDiff2 ? `<img class="channel-logo" src="${esc(logoDiff2)}">` : ""}
+                             <div class="chaine">${esc(diffuseur2)}</div>
                            </div>
                          ` : ""}
                      
                        </div>
-                     ` : `<div class="chaine">${state.state || ""}</div>`}
-                    <div class="heure">${heure}</div>
+                     ` : `<div class="chaine">${esc(state.state)}</div>`}
+                    <div class="heure">${esc(heure)}</div>
                   </div>
                   <div class="team-block">
                     <div class="team-logo-wrap">
-                      ${logoExt ? `<img class="team-logo-ghost" src="${logoExt}">` : ""}
+                      ${logoExt ? `<img class="team-logo-ghost" src="${esc(logoExt)}">` : ""}
                       ${logoExt
-                        ? `<div class="team-logo-chip"><img class="team-logo" src="${logoExt}"></div>`
+                        ? `<div class="team-logo-chip"><img class="team-logo" src="${esc(logoExt)}"></div>`
                         : `<div style="width:88px;height:88px"></div>`}
                     </div>
-                    <span class="team-name">${b.exterieur || ""}</span>
+                    <span class="team-name">${esc(b.exterieur)}</span>
                   </div>
                 </div>
               </div>
             </div>
             ${date ? `
               <div class="bkt-footer">
-                <span>${date}</span>
+                <span>${esc(date)}</span>
                 ${lienMatch ? `<span class="bkt-link-hint">Feuille de match ↗</span>` : ""}
               </div>
             ` : ""}
@@ -373,15 +391,15 @@ class BasketTvGameCardEditor extends HTMLElement {
           <label>Sensor Basket TV</label>
           <select id="entity-select">
             <option value="">-- Choisir un sensor --</option>
-            ${entities.map(e => `<option value="${e}" ${e === current ? "selected" : ""}>${e}</option>`).join("")}
+            ${entities.map(e => `<option value="${esc(e)}" ${e === current ? "selected" : ""}>${esc(e)}</option>`).join("")}
           </select>
         </div>
 
         <div class="field">
           <label>Couleur de fond du bandeau</label>
           <div class="color-row">
-            <input type="color" id="footer-bg-picker" value="${toHex(footerBg)}">
-            <input type="text"  id="footer-bg-text"   value="${footerBg}" placeholder="ex: #1a1a2e ou rgba(0,0,0,0.5)">
+            <input type="color" id="footer-bg-picker" value="${esc(toHex(footerBg))}">
+            <input type="text"  id="footer-bg-text"   value="${esc(footerBg)}" placeholder="ex: #1a1a2e ou rgba(0,0,0,0.5)">
           </div>
           <span class="hint">Valeur CSS acceptée : #hex, rgb(), rgba()</span>
         </div>
@@ -389,8 +407,8 @@ class BasketTvGameCardEditor extends HTMLElement {
         <div class="field">
           <label>Couleur du texte du bandeau</label>
           <div class="color-row">
-            <input type="color" id="footer-color-picker" value="${toHex(footerColor)}">
-            <input type="text"  id="footer-color-text"   value="${footerColor}" placeholder="ex: #f77f00">
+            <input type="color" id="footer-color-picker" value="${esc(toHex(footerColor))}">
+            <input type="text"  id="footer-color-text"   value="${esc(footerColor)}" placeholder="ex: #f77f00">
           </div>
           <span class="hint">Valeur CSS acceptée : #hex, rgb(), rgba()</span>
         </div>
