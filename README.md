@@ -1,23 +1,30 @@
+> [!WARNING]
+> ### 📦 Dépôt archivé
+> **Cette carte est désormais incluse dans l'intégration [`hass-basket-tv`](https://github.com/developpeurbox/hass-basket-tv).** Ce dépôt n'est plus maintenu : installez simplement l'intégration, la carte `basket-tv-game-card` est fournie avec.
+>
+> **Vous aviez installé cette carte séparément ?** Désinstallez-la dans HACS (Frontend) et supprimez l'ancienne ressource Lovelace pour éviter un doublon.
+
 <p align="center">
   <img src="/doc/images/example.png" alt="Exemple d'affichage" width="400"/>
 </p>
 
 # 🏀 **Basket TV Game Card** 📺
-[![PayPal](https://img.shields.io/badge/paypal-me-blue.svg?style=for-the-badge&color=purple&logo=paypal&logoColor=ccc&link=https%3A%2F%2Fpaypal.me%2hlaissus/5)](https://paypal.me/hlaissus/5)
-[![GitHub Release]( https://img.shields.io/github/v/release/developpeurbox/ha-basket-tv-game-card?style=for-the-badge&color=blue)](https://github.com/developpeurbox/ha-basket-tv-game-card/releases)
+[![PayPal](https://img.shields.io/badge/paypal-me-blue.svg?style=for-the-badge&color=purple&logo=paypal&logoColor=ccc&link=https%3A%2F%2Fpaypal.me%2Fhlaissus%2F5)](https://paypal.me/hlaissus/5)
+[![GitHub Release](https://img.shields.io/github/v/release/developpeurbox/ha-basket-tv-game-card?style=for-the-badge&color=blue)](https://github.com/developpeurbox/ha-basket-tv-game-card/releases)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge&color=blue)](https://github.com/hacs/integration)
-[![Community Forum]( https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge&color=pink)](https://forum.hacf.fr/)
+[![Community Forum](https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge&color=pink)](https://forum.hacf.fr/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://github.com/developpeurbox/ha-basket-tv-game-card/blob/main/LICENSE)
 
-[![HACS Action](https://github.com/developpeurbox/ha-basket-tv-game-card/actions/workflows/hacs.yml/badge.svg?style=for-the-badge)](https://github.com/developpeurbox/ha-basket-tv-game-card/actions/workflows/hacs.yml)  
-
+[![HACS Action](https://github.com/developpeurbox/ha-basket-tv-game-card/actions/workflows/hacs.yml/badge.svg?style=for-the-badge)](https://github.com/developpeurbox/ha-basket-tv-game-card/actions/workflows/hacs.yml)
 
 **Carte Lovelace personnalisée pour afficher les matchs Basket TV** avec les logos des équipes, la ou les chaînes TV et l'heure du coup d'envoi.
 
 
-🔗 **Pour la création des capteurs (sensors)**, consultez [ce dépôt](https://github.com/developpeurbox/hass-basket-tv).
+🔗 **Les capteurs (sensors) et la carte** sont désormais fournis ensemble par [`hass-basket-tv`](https://github.com/developpeurbox/hass-basket-tv).
 
-## 📦 Installation
+## 📦 Installation (historique)
+
+> Ces instructions ne concernent que l'ancienne installation séparée. Pour une nouvelle installation, suivez le README de [`hass-basket-tv`](https://github.com/developpeurbox/hass-basket-tv).
 
 > [!TIP]
 > ### Installation Rapide via HACS
@@ -30,10 +37,9 @@
    1. Ouvrez **HACS** dans Home Assistant
    2. Allez dans **Intégrations**
    3. Cliquez sur les **3 points** en haut à droite → **Dépôts personnalisés**
-   4. Ajouter: [https://github.com/developpeurbox/ha-basket-tv-game-card.git](https://github.com/developpeurbox/ha-basket-tv-game-card)
+   4. Ajoutez : [https://github.com/developpeurbox/ha-basket-tv-game-card](https://github.com/developpeurbox/ha-basket-tv-game-card)
    5. Catégorie **Tableau de bord**
    6. Cherchez "**Basket TV Card**" et cliquez sur **Télécharger**
-
 
 ### 🏗️ Méthode 2 : Manuelle
   1. Téléchargez le fichier depuis [les releases](https://github.com/developpeurbox/ha-basket-tv-game-card/releases).
